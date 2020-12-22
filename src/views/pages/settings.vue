@@ -1,10 +1,10 @@
 <template>
-$END$
+<p>sett</p>
 </template>
 
 <script>
 export default {
-name: "settings"
+  name: "settings"
 }
 </script>
 

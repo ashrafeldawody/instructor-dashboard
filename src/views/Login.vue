@@ -1,22 +1,41 @@
 <template>
-<div>
-    <v-dialog :value="true" persistent="">
-        <v-card hover="" style="background:white">
-            <v-card-row class="deep-purple darken-1">
-                <v-card-title class="white--text">
-                    <div class="text-xs-center"> {{$t("Login")}}</div>
-                </v-card-title>
-            </v-card-row>
-            <v-card-row>
-                <v-card-text class="pt-4">
-                    <v-form v-model="model" action="login" :fields="fields" @success="onSuccess" submitButtonText="Login">
-                        <div class="flex pb-2"><small>{{$t("* Indicates required field")}}</small></div>
-                    </v-form>
-                </v-card-text>
-            </v-card-row>
+  <v-container fill-height>
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="9" md="8" lg="6">
+        <v-card>
+          <v-card-title class="primary">
+            <v-card-title class="white--text">
+              <div class="text-xs-center"> {{$t("Login")}}</div>
+            </v-card-title>
+          </v-card-title>
+          <v-card-text>
+            <v-card-text class="pt-4">
+              <v-form >
+                <v-text-field
+                    v-model="instructor.email"
+                    type="email"
+                    label="Email Address"
+                    required
+                ></v-text-field>
+                <v-text-field
+                    v-model="instructor.password"
+                    type="password"
+                    label="Password"
+                    required
+                ></v-text-field>
+
+              </v-form>
+            </v-card-text>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn block color="primary" dark @click="login">
+              {{ $t('Login')}}
+            </v-btn>
+          </v-card-actions>
         </v-card>
-    </v-dialog>
-</div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style>
@@ -28,27 +47,33 @@
 <script>
 
 export default {
-
   data () {
     return {
-      model: {
-        username: 'admin',
-        password: '123456'
-      },
-
-      fields: {
-        username: { label: 'Username' },
-        password: { label: 'Password', type: 'password' }
-      },
-      show: true
+      instructor:{
+          email: 'ashraf6450@gmail.com',
+          password: '123456'
+      }
     }
   },
   methods: {
-    onSuccess (data) {
-      this.$store.commit('setAuth', data)
-      this.$router.replace('/')
+    login () {
+      this.$store.dispatch('Instructor/login',this.instructor)
+          .then(() => {
+            this.$toast.success('Logged In Successfully', {
+              position: 'top-right'
+            })
+            setTimeout(()=>{
+              this.$router.push({name: 'dashboard'})
+            })
+          })
+          .catch(error => {
+            this.$toast.error(error.response.data.message, {
+              position: 'top-right'
+            })
+          })
     }
   },
+
 
   mounted () {
   }

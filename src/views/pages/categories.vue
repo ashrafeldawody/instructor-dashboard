@@ -1,10 +1,10 @@
 <template>
-$END$
+<p>cats</p>
 </template>
 
 <script>
 export default {
-name: "categories"
+  name: "categories"
 }
 </script>
 

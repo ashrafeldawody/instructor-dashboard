@@ -1,5 +1,5 @@
 <template>
-$END$
+<p>question</p>
 </template>
 
 <script>

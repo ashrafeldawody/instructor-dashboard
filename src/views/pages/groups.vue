@@ -1,10 +1,10 @@
 <template>
-$END$
+<p>groups page</p>
 </template>
 
 <script>
 export default {
-name: "groups"
+  name: "groups"
 }
 </script>
 
