@@ -1,13 +1,11 @@
 <template>
-<p>question</p>
+  <p>question</p>
 </template>
 
 <script>
 export default {
-name: "questions"
-}
+  name: "questions"
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

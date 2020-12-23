@@ -1,15 +1,11 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-        permanent
-        expand-on-hover
-        app
-    >
+    <v-navigation-drawer v-model="drawer" color="indigo darken-3" dark app>
       <v-list>
         <v-list-item link>
           <v-list-item-content>
             <v-list-item-title class="title">
-              Dr. Ashraf A. Eldawody
+              Dr. Ashraf Eldawody
             </v-list-item-title>
             <v-list-item-subtitle>ashraf6450@gmail.com</v-list-item-subtitle>
           </v-list-item-content>
@@ -18,42 +14,45 @@
 
       <v-divider></v-divider>
 
-      <v-list
-          nav
-          dense
-      >
-        <v-list-item link>
+      <v-list nav dense>
+        <v-list-item link :to="{ name: 'categories' }">
           <v-list-item-icon>
-            <v-icon>mdi-folder</v-icon>
+            <v-icon>mdi-format-list-bulleted</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>My Files</v-list-item-title>
+          <v-list-item-title>Categories</v-list-item-title>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link :to="{ name: 'groups' }">
           <v-list-item-icon>
             <v-icon>mdi-account-multiple</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Shared with me</v-list-item-title>
+          <v-list-item-title>Groups</v-list-item-title>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link :to="{ name: 'questions' }">
           <v-list-item-icon>
-            <v-icon>mdi-star</v-icon>
+            <v-icon>mdi-help</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Starred</v-list-item-title>
+          <v-list-item-title>Questions</v-list-item-title>
+        </v-list-item>
+        <v-list-item link :to="{ name: 'tests' }">
+          <v-list-item-icon>
+            <v-icon>mdi-pencil-box-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Tests</v-list-item-title>
+        </v-list-item>
+        <v-list-item link :to="{ name: 'results' }">
+          <v-list-item-icon>
+            <v-icon>mdi-chart-bar</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Results</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app>
-      <!-- -->
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
-
-    <!-- Sizes your content based upon application components -->
-    <v-main>
-
-      <!-- Provides the application the proper gutter -->
-      <v-container fluid>
-
-        <!-- If using vue-router -->
+    <v-main class="ma-0 pa-0">
+      <v-container>
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -66,10 +65,17 @@
 
 <script>
 export default {
-name: "Dashboard"
-}
+  name: "Dashboard",
+  data() {
+    return {
+      drawer: null
+    };
+  }
+};
 </script>
 
 <style scoped>
-
+.v-navigation-drawer {
+  height: 100vh;
+}
 </style>

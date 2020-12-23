@@ -1,13 +1,11 @@
 <template>
-<p>sett</p>
+  <p>sett</p>
 </template>
 
 <script>
 export default {
   name: "settings"
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
