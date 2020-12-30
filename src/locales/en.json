@@ -1,0 +1,10 @@
+{
+  "message": "hello i18n !!",
+  "Login": "Login",
+  "Register": "Register",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Academic ID": "Academic ID",
+  "Full Name": "Full Name",
+  "* Indicates required field": "* Indicates required field"
+}
