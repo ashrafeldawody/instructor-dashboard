@@ -15,12 +15,6 @@
       <v-divider></v-divider>
 
       <v-list nav dense>
-        <v-list-item link :to="{ name: 'categories' }">
-          <v-list-item-icon>
-            <v-icon>mdi-format-list-bulleted</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Categories</v-list-item-title>
-        </v-list-item>
         <v-list-item link :to="{ name: 'groups' }">
           <v-list-item-icon>
             <v-icon>mdi-account-multiple</v-icon>
@@ -31,7 +25,7 @@
           <v-list-item-icon>
             <v-icon>mdi-help</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Questions</v-list-item-title>
+          <v-list-item-title>Questions Bank</v-list-item-title>
         </v-list-item>
         <v-list-item link :to="{ name: 'tests' }">
           <v-list-item-icon>
