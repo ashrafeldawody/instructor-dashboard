@@ -6,6 +6,9 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import router from "./router";
 import VueToast from "vue-toast-notification";
+import underscore from "vue-underscore";
+Vue.use(underscore);
+
 //import 'vue-toast-notification/dist/theme-default.css';
 import "vue-toast-notification/dist/theme-sugar.css";
 Vue.use(VueToast);

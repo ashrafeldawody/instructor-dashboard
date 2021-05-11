@@ -17,8 +17,9 @@
         </v-col>
         <v-col cols="12" sm="4">
           <v-select
-            :items="categories"
+            :items="dcategories"
             dense
+            @change="selectCategory"
             label="Categories"
             outlined
           ></v-select>
@@ -35,39 +36,35 @@
               <v-list>
                 <v-list-item link>
                   <v-list-item-title
-                      v-text="'Multiple Choice'"
+                    v-text="'Multiple Choice'"
                   ></v-list-item-title>
                   <v-list-item-icon>
                     <v-icon right>mdi-check-box-multiple-outline</v-icon>
                   </v-list-item-icon>
                 </v-list-item>
                 <v-list-item link>
-                  <v-list-item-title
-                      v-text="'Complete'"
-                  ></v-list-item-title>
+                  <v-list-item-title v-text="'Complete'"></v-list-item-title>
                   <v-list-item-icon>
                     <v-icon right>mdi-upload</v-icon>
                   </v-list-item-icon>
                 </v-list-item>
                 <v-list-item link>
                   <v-list-item-title
-                      v-text="'True or False'"
+                    v-text="'True or False'"
                   ></v-list-item-title>
                   <v-list-item-icon>
                     <v-icon right>mdi-close</v-icon>
                   </v-list-item-icon>
                 </v-list-item>
                 <v-list-item link>
-                  <v-list-item-title
-                      v-text="'Matching'"
-                  ></v-list-item-title>
+                  <v-list-item-title v-text="'Matching'"></v-list-item-title>
                   <v-list-item-icon>
                     <v-icon right>mdi-arrow-left-right-bold</v-icon>
                   </v-list-item-icon>
                 </v-list-item>
                 <v-list-item link>
                   <v-list-item-title
-                      v-text="'Import Questions'"
+                    v-text="'Import Questions'"
                   ></v-list-item-title>
                   <v-list-item-icon>
                     <v-icon right>mdi-upload</v-icon>
@@ -85,12 +82,19 @@
       :loading="loading"
       :options.sync="options"
       :search="search"
+      :custom-filter="dcategories"
       class="elevation-2"
     >
       <template v-slot:item.difficulty="{ item }">
         <v-chip
-            :color="(item.difficulty == 'Hard')? 'red':(item.difficulty == 'Moderate')? 'warning':'success'"
-            dark
+          :color="
+            item.difficulty == 'Hard'
+              ? 'red'
+              : item.difficulty == 'Moderate'
+              ? 'warning'
+              : 'success'
+          "
+          dark
         >
           {{ item.difficulty }}
         </v-chip>
@@ -110,6 +114,10 @@
 
       <template v-slot:item.actions="{ item }">
         <v-flex class="d-flex">
+          <v-btn class="mr-2" icon>
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
+
           <v-btn
             :to="{ path: 'question/' + item.id + '/update' }"
             class="mr-2"
@@ -132,6 +140,7 @@ export default {
   data() {
     return {
       dialog: false,
+      category: "",
       dialogDelete: false,
       editedQuestion: {
         id: -1,
@@ -148,7 +157,6 @@ export default {
         difficulty: ""
       },
 
-      categories: [],
       search: "",
       questions: [
         {
@@ -162,7 +170,7 @@ export default {
         {
           id: 2,
           question: "Frozen Yogurt",
-          category: "Expert System",
+          category: "Stupid systems",
           type: "Multiple Choice",
           difficulty: "Easy"
         },
@@ -206,14 +214,33 @@ export default {
       options: {},
       headers: [
         { text: "Question", value: "question" },
-        { text: "Category", value: "category" },
+        {
+          text: "Category",
+          value: "category",
+          filter: value => {
+            if (this.category == value || !this.category) return true;
+            else return false;
+          }
+        },
         { text: "Type", value: "type" },
         { text: "Difficulty", value: "difficulty" },
         { text: "Actions", value: "actions", sortable: false }
       ]
     };
   },
+  computed: {
+    dcategories: function() {
+      return this.$_.keys(
+        this.$_.countBy(this.questions, function(questions) {
+          return questions.category;
+        })
+      );
+    }
+  },
   methods: {
+    selectCategory(val) {
+      this.category = val;
+    },
     getDataFromApi() {
       // this.loading = true;
       // this.getQuestions().then(data => {
