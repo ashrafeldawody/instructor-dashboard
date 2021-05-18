@@ -5,7 +5,7 @@
     </v-card-title>
     <v-card-subtitle>
       <v-row>
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="3">
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
@@ -15,13 +15,22 @@
           >
           </v-text-field>
         </v-col>
-        <v-col cols="12" sm="4">
+        <v-col cols="12" sm="3">
           <v-select
-            :items="dcategories"
-            dense
-            @change="selectCategory"
-            label="Categories"
-            outlined
+              :items="allCategories"
+              dense
+              @change="selectCategory"
+              label="Categories"
+              outlined
+          ></v-select>
+        </v-col>
+        <v-col cols="12" sm="3">
+          <v-select
+              :items="allTypes"
+              dense
+              @change="selectType"
+              label="Types"
+              outlined
           ></v-select>
         </v-col>
         <v-col>
@@ -82,8 +91,12 @@
       :loading="loading"
       :options.sync="options"
       :search="search"
-      :custom-filter="dcategories"
       class="elevation-2"
+      :footer-props="{
+      showFirstLastPage: true,
+      itemsPerPageText:'Questions Per Page'
+    }"
+
     >
       <template v-slot:item.difficulty="{ item }">
         <v-chip
@@ -141,6 +154,7 @@ export default {
     return {
       dialog: false,
       category: "",
+      type:"",
       dialogDelete: false,
       editedQuestion: {
         id: -1,
@@ -177,8 +191,8 @@ export default {
         {
           id: 3,
           question: "Frozen Yogurt",
-          category: "Expert System",
-          type: "Multiple Choice",
+          category: "Stupid systems",
+          type: "Complete",
           difficulty: "Moderate"
         },
         {
@@ -218,28 +232,46 @@ export default {
           text: "Category",
           value: "category",
           filter: value => {
-            if (this.category == value || !this.category) return true;
+            if (this.category == value || !this.category || this.category == "All Categories") return true;
             else return false;
           }
         },
-        { text: "Type", value: "type" },
+        { text: "Type", value: "type",
+          filter: value => {
+            if (this.type == value || !this.type || this.type == "All Types") return true;
+            else return false;
+          }
+        },
         { text: "Difficulty", value: "difficulty" },
         { text: "Actions", value: "actions", sortable: false }
       ]
     };
   },
   computed: {
-    dcategories: function() {
-      return this.$_.keys(
-        this.$_.countBy(this.questions, function(questions) {
-          return questions.category;
-        })
+    allCategories: function() {
+      let arr = this.$_.keys(
+          this.$_.countBy(this.questions, function(questions) {
+            return questions.category;
+          })
       );
+      return ["All Categories", ...arr];
+    },
+    allTypes: function() {
+      let arr = this.$_.keys(
+          this.$_.countBy(this.questions, function(questions) {
+            return questions.type;
+          })
+      );
+      return ["All Types", ...arr];
     }
+
   },
   methods: {
     selectCategory(val) {
       this.category = val;
+    },
+    selectType(val) {
+      this.type = val;
     },
     getDataFromApi() {
       // this.loading = true;
