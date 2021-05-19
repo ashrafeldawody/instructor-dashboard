@@ -1,10 +1,10 @@
 <template>
-<p>ffa</p>
+
 </template>
 
 <script>
 export default {
-name: "mcq"
+  name: "trueorfalse"
 }
 </script>
 

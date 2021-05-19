@@ -7,80 +7,50 @@
     </v-card-text>
     <v-card-text>
       <form>
-        <quill-editor
-            ref="myQuillEditor"
-            v-model="content"
-            :options="editorOption"
-            @blur="onEditorBlur($event)"
-            @focus="onEditorFocus($event)"
-            @ready="onEditorReady($event)"
-        />
+        <v-row>
+          <v-col cols="12" md="6">
+            <v-combobox
+              v-model="type"
+              label="Question Type"
+              :items="[
+                'Multiple Choice',
+                'True or False',
+                'Complete',
+                'Matching'
+              ]"
+              dense
+              outlined
+            ></v-combobox>
+          </v-col>
 
-        <v-text-field
-          v-model="name"
-          :error-messages="nameErrors"
-          :counter="10"
-          label="Name"
-          required
-          @input="$v.name.$touch()"
-          @blur="$v.name.$touch()"
-        ></v-text-field>
-        <v-text-field
-          v-model="email"
-          :error-messages="emailErrors"
-          label="E-mail"
-          required
-          @input="$v.email.$touch()"
-          @blur="$v.email.$touch()"
-        ></v-text-field>
-        <v-select
-          v-model="select"
-          :items="items"
-          :error-messages="selectErrors"
-          label="Item"
-          required
-          @change="$v.select.$touch()"
-          @blur="$v.select.$touch()"
-        ></v-select>
-        <v-checkbox
-          v-model="checkbox"
-          :error-messages="checkboxErrors"
-          label="Do you agree?"
-          required
-          @change="$v.checkbox.$touch()"
-          @blur="$v.checkbox.$touch()"
-        ></v-checkbox>
-
-        <v-btn class="mr-4" @click="submit">
-          submit
-        </v-btn>
-        <v-btn @click="clear">
-          clear
-        </v-btn>
+          <v-col cols="12" md="6">
+            <treeselect
+              v-model="selectedCategory"
+              placeholder="Question Category"
+              :searchable="true"
+              :clearable="false"
+              :options="categories"
+              :disable-branch-nodes="true"
+            />
+          </v-col>
+        </v-row>
+        <component :is="optionComponent" />
       </form>
     </v-card-text>
-    <v-card-actions>
-      <v-btn text color="deep-purple accent-4">
-        Learn More
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength, email } from "vuelidate/lib/validators";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-
-import { quillEditor } from "vue-quill-editor";
+import Treeselect from "@riophae/vue-treeselect";
+import "@riophae/vue-treeselect/dist/vue-treeselect.css";
 
 export default {
   name: "addQuestion",
   mixins: [validationMixin],
   components: {
-    quillEditor
+    Treeselect
   },
 
   validations: {
@@ -95,71 +65,58 @@ export default {
   },
 
   data: () => ({
-    name: "",
-    email: "",
-    select: null,
-    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    checkbox: false
+    type: "Multiple Choice",
+    categories: [
+      {
+        id: 1,
+        label: "AI",
+        children: [
+          {
+            id: 2,
+            label: "Expert Systems"
+          },
+          {
+            id: 3,
+            label: "Neural networks"
+          },
+          {
+            id: 4,
+            label: "Python"
+          }
+        ]
+      }
+    ],
+    selectedCategory: null
   }),
 
   computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill
-    },
-    checkboxErrors() {
-      const errors = [];
-      if (!this.$v.checkbox.$dirty) return errors;
-      !this.$v.checkbox.checked && errors.push("You must agree to continue!");
-      return errors;
-    },
-    selectErrors() {
-      const errors = [];
-      if (!this.$v.select.$dirty) return errors;
-      !this.$v.select.required && errors.push("Item is required");
-      return errors;
-    },
-    nameErrors() {
-      const errors = [];
-      if (!this.$v.name.$dirty) return errors;
-      !this.$v.name.maxLength &&
-        errors.push("Name must be at most 10 characters long");
-      !this.$v.name.required && errors.push("Name is required.");
-      return errors;
-    },
-    emailErrors() {
-      const errors = [];
-      if (!this.$v.email.$dirty) return errors;
-      !this.$v.email.email && errors.push("Must be valid e-mail");
-      !this.$v.email.required && errors.push("E-mail is required");
-      return errors;
+    optionComponent() {
+      return () =>
+        this.type != null
+          ? import(
+              `../questions/${this.type.replace(" ", "-").toLowerCase()}.vue`
+            )
+          : null;
     }
   },
-  methods: {
-    onEditorBlur(quill) {
-      console.log('editor blur!', quill)
-    },
-    onEditorFocus(quill) {
-      console.log('editor focus!', quill)
-    },
-    onEditorReady(quill) {
-      console.log('editor ready!', quill)
-    },
-    onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
-      this.content = html
-    },
-    submit() {
-      this.$v.$touch();
-    },
-    clear() {
-      this.$v.$reset();
-      this.name = "";
-      this.email = "";
-      this.select = null;
-      this.checkbox = false;
-    }
-  }
+  methods: {}
 };
 </script>
 
-<style scoped></style>
+<style>
+.ql-editor {
+  min-height: 200px;
+}
+.vue-treeselect__control {
+  height: 41px;
+  font-size: large;
+}
+.vue-treeselect__placeholder {
+}
+.vue-treeselect div,
+.vue-treeselect span {
+  box-sizing: border-box;
+  color: #4a4a4a;
+  font-size: large;
+}
+</style>
