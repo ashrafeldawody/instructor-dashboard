@@ -3,6 +3,7 @@
     ref="questionEditor"
     v-model="content"
     class="quill-editor"
+    @change="$emit('onChange', content);"
     :options="editorOptions"
   />
 </template>

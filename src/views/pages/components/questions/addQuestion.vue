@@ -8,7 +8,7 @@
     <v-card-text>
       <form>
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <v-combobox
               v-model="type"
               label="Question Type"
@@ -23,7 +23,7 @@
             ></v-combobox>
           </v-col>
 
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="4">
             <treeselect
               v-model="selectedCategory"
               placeholder="Question Category"
@@ -33,39 +33,46 @@
               :disable-branch-nodes="true"
             />
           </v-col>
+          <v-col cols="12" md="4">
+            <v-combobox
+              v-model="difficultyLevel"
+              label="Difficulty Level"
+              :items="['Easy', 'Moderate', 'Hard']"
+              dense
+              outlined
+            ></v-combobox>
+          </v-col>
         </v-row>
-        <component :is="optionComponent" />
+        <multiple-choice v-if="type === 'Multiple Choice'" />
+        <complete v-if="type === 'Complete'" />
+        <matching v-if="type === 'Matching'" />
+        <trueorfalse v-if="type === 'True or False'" />
       </form>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
-import { validationMixin } from "vuelidate";
-import { required, maxLength, email } from "vuelidate/lib/validators";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
+import MultipleChoice from "@/views/pages/components/questions/multiple-choice";
+import Complete from "@/views/pages/components/questions/complete";
+import Matching from "@/views/pages/components/questions/matching";
+import Trueorfalse from "@/views/pages/components/questions/trueorfalse";
 
 export default {
   name: "addQuestion",
-  mixins: [validationMixin],
   components: {
+    Trueorfalse,
+    Matching,
+    Complete,
+    MultipleChoice,
     Treeselect
-  },
-
-  validations: {
-    name: { required, maxLength: maxLength(10) },
-    email: { required, email },
-    select: { required },
-    checkbox: {
-      checked(val) {
-        return val;
-      }
-    }
   },
 
   data: () => ({
     type: "Multiple Choice",
+    difficultyLevel: "Moderate",
     categories: [
       {
         id: 1,
@@ -86,19 +93,10 @@ export default {
         ]
       }
     ],
-    selectedCategory: null
+    selectedCategory: null,
+    optionComponent: null
   }),
 
-  computed: {
-    optionComponent() {
-      return () =>
-        this.type != null
-          ? import(
-              `../questions/${this.type.replace(" ", "-").toLowerCase()}.vue`
-            )
-          : null;
-    }
-  },
   methods: {}
 };
 </script>
