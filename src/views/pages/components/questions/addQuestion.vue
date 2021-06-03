@@ -1,10 +1,19 @@
 <template>
   <v-card class="mx-auto">
-    <v-card-text>
-      <p class="display-1 text--primary">
+    <v-toolbar flat>
+      <div class="display-1 text--primary">
         Create New Question
-      </p>
-    </v-card-text>
+      </div>
+      <v-spacer></v-spacer>
+      <v-btn color="green" dark @click="submitQuestion">
+        <v-icon
+            left
+            dark
+        >
+          mdi-plus
+        </v-icon>
+        Add Question</v-btn>
+    </v-toolbar>
     <v-card-text>
       <form>
         <v-row>
@@ -47,6 +56,7 @@
         <complete v-if="type === 'Complete'" />
         <matching v-if="type === 'Matching'" />
         <trueorfalse v-if="type === 'True or False'" />
+
       </form>
     </v-card-text>
   </v-card>
@@ -97,7 +107,11 @@ export default {
     optionComponent: null
   }),
 
-  methods: {}
+  methods: {
+    submitQuestion(){
+
+    }
+  }
 };
 </script>
 

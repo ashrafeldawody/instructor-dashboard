@@ -1,10 +1,19 @@
 <template>
   <div>
+    <v-row>
+      <v-col cols="12" md="4">
+        <v-text-field label="Points" outlined dense type="number" min="1" value="1"></v-text-field>
+      </v-col>
+      <v-col cols="12" md="4"></v-col>
+      <v-col cols="12" md="4"></v-col>
+    </v-row>
+
     <editor @onChange="getQuestion" />
     <v-divider></v-divider>
 
-    <v-card class="pa-12" tile>
+    <v-card class="pa-4" tile>
       <v-list-item
+          class="mb-6"
         v-for="answer in answers"
         :key="answer.id"
         @click="toggleAnswer(answer.id)"
