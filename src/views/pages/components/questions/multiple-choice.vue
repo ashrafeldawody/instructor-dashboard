@@ -12,6 +12,21 @@
     <v-divider></v-divider>
 
     <v-card class="pa-4" tile>
+      <editor @onChange="getAnswer" />
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-checkbox v-model="answer.isCorrect" label="Correct"></v-checkbox>
+        </v-col>
+        <v-col cols="12" md="6" class="text-right">
+          <v-btn color="green" class="ma-2 white--text" @click="addAnswer">
+            <v-icon left dark>
+              mdi-plus
+            </v-icon>
+            Add
+          </v-btn>
+        </v-col>
+      </v-row>
+
       <v-list-item
           class="mb-6"
         v-for="answer in answers"
@@ -33,20 +48,6 @@
           </v-btn>
         </v-list-item-action>
       </v-list-item>
-      <editor @onChange="getAnswer" />
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-checkbox v-model="answer.isCorrect" label="Correct"></v-checkbox>
-        </v-col>
-        <v-col cols="12" md="6" class="text-right">
-          <v-btn color="green" class="ma-2 white--text" @click="addAnswer">
-            <v-icon left dark>
-              mdi-plus
-            </v-icon>
-            Add
-          </v-btn>
-        </v-col>
-      </v-row>
     </v-card>
   </div>
 </template>
