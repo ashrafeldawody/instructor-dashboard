@@ -2,16 +2,24 @@
   <div>
     <v-row>
       <v-col cols="12" md="4">
-        <v-text-field label="Points" outlined dense type="number" min="1" value="1"></v-text-field>
+        <v-text-field
+          label="Points"
+          outlined
+          dense
+          type="number"
+          min="1"
+          value="1"
+        ></v-text-field>
       </v-col>
       <v-col cols="12" md="4"></v-col>
       <v-col cols="12" md="4"></v-col>
     </v-row>
 
-    <editor @onChange="getQuestion" />
+    <editor @onChange="getQuestion" placeholder="Question..." />
     <v-divider></v-divider>
 
     <v-card class="pa-4" tile>
+      <v-card-title>Add Answer</v-card-title>
       <editor @onChange="getAnswer" />
       <v-row>
         <v-col cols="12" md="6">
@@ -28,7 +36,7 @@
       </v-row>
 
       <v-list-item
-          class="mb-6"
+        class="mb-6"
         v-for="answer in answers"
         :key="answer.id"
         @click="toggleAnswer(answer.id)"
@@ -41,7 +49,7 @@
           ></v-checkbox>
         </v-list-item-action>
 
-        <v-list-item-content v-html="answer.answer"/>
+        <v-list-item-content v-html="answer.answer" />
         <v-list-item-action>
           <v-btn icon @click="removeAnswer(answer.id)">
             <v-icon color="red lighten-1">mdi-delete</v-icon>
@@ -69,23 +77,7 @@ export default {
       answer: "",
       isCorrect: false
     },
-    answers: [
-      {
-        id: 1,
-        answer: "",
-        isCorrect: true
-      },
-      {
-        id: 2,
-        answer: "ANS2",
-        isCorrect: false
-      },
-      {
-        id: 3,
-        answer: "ANS3",
-        isCorrect: false
-      }
-    ]
+    answers: []
   }),
   methods: {
     removeAnswer(id) {
@@ -118,10 +110,10 @@ export default {
 </script>
 
 <style scoped>
-/deep/ img{
+/deep/ img {
   max-height: 300px;
 }
-/deep/ .v-list-item__content{
+/deep/ .v-list-item__content {
   max-height: 350px;
 }
 </style>

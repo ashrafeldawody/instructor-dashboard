@@ -20,6 +20,7 @@ export default {
   components: {
     quillEditor
   },
+  props: ["placeholder"],
   data: () => ({
     content: "",
     editorOptions: {
@@ -67,9 +68,8 @@ export default {
           }
         }
       },
-      placeholder: "Question..."
     }
-  })
+  }),
 };
 </script>
 
