@@ -27,7 +27,11 @@ const router = new Router({
       route("categories", "pages/categories", "categories"),
       route("tests", "pages/tests", "tests"),
       route("questions", "pages/questions", "questions"),
-      route("questions/new", "pages/components/questions/addQuestion", "addQuestions"),
+      route(
+        "questions/new",
+        "pages/components/questions/addQuestion",
+        "addQuestions"
+      ),
       route("results", "pages/results", "results"),
       route("settings", "pages/settings", "settings")
     ]),

@@ -17,20 +17,20 @@
         </v-col>
         <v-col cols="12" sm="3">
           <v-select
-              :items="allCategories"
-              dense
-              @change="selectCategory"
-              label="Categories"
-              outlined
+            :items="allCategories"
+            dense
+            @change="selectCategory"
+            label="Categories"
+            outlined
           ></v-select>
         </v-col>
         <v-col cols="12" sm="3">
           <v-select
-              :items="allTypes"
-              dense
-              @change="selectType"
-              label="Types"
-              outlined
+            :items="allTypes"
+            dense
+            @change="selectType"
+            label="Types"
+            outlined
           ></v-select>
         </v-col>
         <v-col>
@@ -93,10 +93,9 @@
       :search="search"
       class="elevation-2"
       :footer-props="{
-      showFirstLastPage: true,
-      itemsPerPageText:'Questions Per Page'
-    }"
-
+        showFirstLastPage: true,
+        itemsPerPageText: 'Questions Per Page'
+      }"
     >
       <template v-slot:item.difficulty="{ item }">
         <v-chip
@@ -154,7 +153,7 @@ export default {
     return {
       dialog: false,
       category: "",
-      type:"",
+      type: "",
       dialogDelete: false,
       editedQuestion: {
         id: -1,
@@ -232,13 +231,21 @@ export default {
           text: "Category",
           value: "category",
           filter: value => {
-            if (this.category == value || !this.category || this.category == "All Categories") return true;
+            if (
+              this.category == value ||
+              !this.category ||
+              this.category == "All Categories"
+            )
+              return true;
             else return false;
           }
         },
-        { text: "Type", value: "type",
+        {
+          text: "Type",
+          value: "type",
           filter: value => {
-            if (this.type == value || !this.type || this.type == "All Types") return true;
+            if (this.type == value || !this.type || this.type == "All Types")
+              return true;
             else return false;
           }
         },
@@ -250,21 +257,20 @@ export default {
   computed: {
     allCategories: function() {
       let arr = this.$_.keys(
-          this.$_.countBy(this.questions, function(questions) {
-            return questions.category;
-          })
+        this.$_.countBy(this.questions, function(questions) {
+          return questions.category;
+        })
       );
       return ["All Categories", ...arr];
     },
     allTypes: function() {
       let arr = this.$_.keys(
-          this.$_.countBy(this.questions, function(questions) {
-            return questions.type;
-          })
+        this.$_.countBy(this.questions, function(questions) {
+          return questions.type;
+        })
       );
       return ["All Types", ...arr];
     }
-
   },
   methods: {
     selectCategory(val) {

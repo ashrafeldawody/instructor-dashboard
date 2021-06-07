@@ -1,13 +1,11 @@
 <template>
-<p>complete</p>
+  <p>complete</p>
 </template>
 
 <script>
 export default {
-name: "complete"
-}
+  name: "complete"
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

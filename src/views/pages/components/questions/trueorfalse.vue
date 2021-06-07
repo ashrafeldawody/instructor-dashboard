@@ -13,7 +13,7 @@
       </v-col>
     </v-row>
 
-    <editor />
+    <editor label="Question" />
     <v-divider></v-divider>
     <v-item-group>
       <v-container>
@@ -59,7 +59,7 @@ import editor from "@/views/pages/components/editor";
 
 export default {
   name: "trueorfalse",
-  components: {editor},
+  components: { editor },
   data: () => ({
     question: "",
     points: "",
@@ -69,8 +69,8 @@ export default {
     toggle(ans) {
       this.answer = ans;
     },
-    onEnter(){
-      console.log('good bopy')
+    onEnter() {
+      console.log("good bopy");
     }
   }
 };

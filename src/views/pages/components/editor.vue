@@ -1,11 +1,16 @@
 <template>
-  <quill-editor
-    ref="questionEditor"
-    v-model="content"
-    class="quill-editor"
-    @change="$emit('onChange', content);"
-    :options="editorOptions"
-  />
+  <v-card>
+    <v-card-title>{{ label }}</v-card-title>
+    <v-card-text>
+      <quill-editor
+        ref="questionEditor"
+        v-model="content"
+        class="quill-editor"
+        @change="$emit('onChange', content)"
+        :options="editorOptions"
+      />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -20,7 +25,7 @@ export default {
   components: {
     quillEditor
   },
-  props: ["placeholder"],
+  props: ["label"],
   data: () => ({
     content: "",
     editorOptions: {
@@ -67,9 +72,9 @@ export default {
             });
           }
         }
-      },
+      }
     }
-  }),
+  })
 };
 </script>
 

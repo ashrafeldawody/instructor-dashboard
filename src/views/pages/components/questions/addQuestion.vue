@@ -6,13 +6,11 @@
       </div>
       <v-spacer></v-spacer>
       <v-btn color="green" dark @click="submitQuestion">
-        <v-icon
-            left
-            dark
-        >
+        <v-icon left dark>
           mdi-plus
         </v-icon>
-        Add Question</v-btn>
+        Add Question</v-btn
+      >
     </v-toolbar>
     <v-card-text>
       <form>
@@ -56,7 +54,6 @@
         <complete v-if="type === 'Complete'" />
         <matching v-if="type === 'Matching'" />
         <trueorfalse v-if="type === 'True or False'" />
-
       </form>
     </v-card-text>
   </v-card>
@@ -108,9 +105,7 @@ export default {
   }),
 
   methods: {
-    submitQuestion(){
-
-    }
+    submitQuestion() {}
   }
 };
 </script>

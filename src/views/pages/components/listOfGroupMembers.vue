@@ -43,7 +43,7 @@ export default {
         "deep-orange accent-4",
         "brown darken-4"
       ];
-      return colors[Math.floor(Math.random() * colors.length)]
+      return colors[Math.floor(Math.random() * colors.length)];
     },
     deleteUserFromGroup(member) {
       this.$confirm({

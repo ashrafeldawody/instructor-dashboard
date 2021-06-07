@@ -59,8 +59,7 @@
         </v-list-item>
       </v-list>
     </v-list-item-content>
-    <v-card-actions>
-    </v-card-actions>
+    <v-card-actions> </v-card-actions>
   </v-card>
 </template>
 

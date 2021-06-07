@@ -52,7 +52,7 @@ export default {
     },
     editGroup() {
       this.dialog = false;
-      if(this.newName.length > 3 && this.newName !== this.oldName){
+      if (this.newName.length > 3 && this.newName !== this.oldName) {
         console.log("Edit Group");
         this.$emit("groupUpdated", this.newName);
       }

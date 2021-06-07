@@ -15,12 +15,11 @@
       <v-col cols="12" md="4"></v-col>
     </v-row>
 
-    <editor @onChange="getQuestion" placeholder="Question..." />
+    <editor @onChange="getQuestion" label="Question" />
     <v-divider></v-divider>
 
     <v-card class="pa-4" tile>
-      <v-card-title>Add Answer</v-card-title>
-      <editor @onChange="getAnswer" />
+      <editor @onChange="getAnswer" label="Add Answer" />
       <v-row>
         <v-col cols="12" md="6">
           <v-checkbox v-model="answer.isCorrect" label="Correct"></v-checkbox>
@@ -37,9 +36,9 @@
 
       <v-list-item
         class="mb-6"
-        v-for="answer in answers"
-        :key="answer.id"
-        @click="toggleAnswer(answer.id)"
+        v-for="(answer, index) in answers"
+        :key="index"
+        @click="toggleAnswer(index)"
         :class="answer.isCorrect ? 'green lighten-5' : ''"
       >
         <v-list-item-action>
@@ -51,7 +50,7 @@
 
         <v-list-item-content v-html="answer.answer" />
         <v-list-item-action>
-          <v-btn icon @click="removeAnswer(answer.id)">
+          <v-btn icon @click="removeAnswer(index)">
             <v-icon color="red lighten-1">mdi-delete</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -62,7 +61,6 @@
 
 <script>
 import editor from "@/views/pages/components/editor";
-import { _ } from "vue-underscore";
 
 export default {
   name: "multiple-choice",
@@ -73,26 +71,31 @@ export default {
     question: "",
     points: "",
     answer: {
-      id: 1,
       answer: "",
       isCorrect: false
     },
     answers: []
   }),
   methods: {
-    removeAnswer(id) {
-      this.answers.splice(
-        _.indexOf(this.answers, _.findWhere(this.answers, { id: id })),
-        1
-      );
+    removeAnswer(index) {
+      this.answers.splice(index, 1);
     },
-    toggleAnswer(id) {
-      _.findWhere(this.answers, { id: id }).isCorrect = !_.findWhere(
-        this.answers,
-        { id: id }
-      ).isCorrect;
+    toggleAnswer(index) {
+      this.answers[index].isCorrect = !this.answers[index].isCorrect;
     },
     addAnswer() {
+      if (this.answer.answer.length < 1) {
+        return this.$toast.open({
+          message: "You Can't add an empty Answer!",
+          type: "error"
+        });
+      }
+      if (this.answerExist()) {
+        return this.$toast.open({
+          message: "Answer already exists!",
+          type: "error"
+        });
+      }
       this.answers.push({
         id: Math.random(),
         answer: this.answer.answer,
@@ -104,6 +107,16 @@ export default {
     },
     getAnswer(answer) {
       this.answer.answer = answer;
+    },
+    answerExist() {
+      let obj = this.answers.find(
+        o => o.answer.toLowerCase() === this.answer.answer.toLowerCase()
+      );
+      if (obj) return true;
+      return false;
+    },
+    resetAnswer() {
+      this.answer.answer = "";
     }
   }
 };

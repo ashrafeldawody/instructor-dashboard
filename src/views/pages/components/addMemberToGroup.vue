@@ -47,7 +47,7 @@ export default {
     },
     addMemberToGroup() {
       this.toggle();
-      this.$emit('added')
+      this.$emit("added");
     }
   }
 };
